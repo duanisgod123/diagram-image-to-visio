@@ -39,6 +39,13 @@
 
 ## 快速开始
 
+### Get started  开始使用
+Copy this to your coding agent:
+将这段复制到你的编程代理：
+
+Clone [https://github.com/zarazhangrui/beautiful-html-templates](https://github.com/duanisgod123/diagram-image-to-visio) and follow the instructions in AGENTS.md to build me a beautiful HTML slide deck.
+
+
 ### 1. 检测环境
 
 ```powershell
