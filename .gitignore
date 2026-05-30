@@ -1,0 +1,19 @@
+# Visio temp files
+~$*.vsd*
+*.tmp
+*.lock
+
+# PowerShell
+*.ps1xml
+
+# OS
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# IDE
+.vscode/
+.idea/
+*.sln
+*.suo
+*.user

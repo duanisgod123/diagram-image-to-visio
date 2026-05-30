@@ -1,0 +1,4 @@
+interface:
+  display_name: "Diagram Image to Visio"
+  short_description: "Convert diagram images into editable Visio files"
+  default_prompt: "Use $diagram-image-to-visio to convert this uploaded diagram image into an editable .vsdx file."
