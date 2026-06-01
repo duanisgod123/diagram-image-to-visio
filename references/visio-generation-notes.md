@@ -96,6 +96,31 @@ Use these mappings in PowerShell generator:
 - Respect `z_index`; do not blindly bring every image to front.
 - Header and footer decorative plates are acceptable image fragments when they do not interfere with editability of central business content.
 
+## Editable-First Module Policy
+
+- Rebuild simple repeated modules as native shapes before using a bitmap crop. Good candidates: legends, vertical process stacks, metric boxes, section headers, simple tables, and repeated icon-label rows.
+- Use hybrid reconstruction for complex modules: native outer box/title/connectors plus cropped inner visual when the inner content is a point cloud, 3D voxel drawing, dense formula, or detailed icon.
+- After replacing a crop with native shapes, export a preview and inspect text wrapping. Narrow Visio text boxes can make labels unreadable even when source coordinates are correct.
+- Prefer slightly simplified editable labels over exact labels that overlap or wrap vertically.
+- Keep invisible anchors or native host nodes for connector endpoints when a visual crop is used, so future editing does not depend on selecting a bitmap.
+- Hybrid fallback is valid when native Visio output is worse than a tight crop: keep invisible native anchors/text placeholders for semantics and connectors, render the exact crop on top, and ensure no draft layer is visible in the exported preview.
+- For formulas or loss/metric panels, split title, equation, and note into separate native text boxes. Use Cambria Math or a similar math-friendly font for equations.
+- For latent/quantization/hyperprior/entropy boxes, draw the frame and labels natively, then insert tight crops only for internal voxel/chart/icon visuals.
+- Allow true small text sizes when matching scientific figures. A hard minimum around 5.8-7 pt causes label wrapping and should be avoided; 3-5 pt may be necessary for dense labels.
+- Use the source image as a positioning reference throughout iteration; do not leave a full-image underlay in the delivered `.vsdx`.
+
+## Comparison Loop
+
+- A successful `.vsdx` write is not completion for complex diagrams. Export a PNG preview and compare it against the source.
+- Run separate checks for visual fidelity and editability: modules that look right but are pasted as avoidable raster chunks should be revisited.
+- Fix obvious discrepancies without waiting for the user to circle them: clipped crops, wrong icon positions, missing dashed flow lines, uneven spacing, and text overflow.
+- Use available local Visio templates, especially `D:\Desktop\visio模板库`, as style/asset references before hand-building a complex module from scratch.
+- Use `Compare-DiagramPreview.ps1` to generate a heatmap and hot-region JSON. Treat hot regions as a work queue, then inspect them visually before making changes.
+- Use `Export-VisioPreview.ps1` for repeatable PNG previews instead of handwritten COM snippets. It uses Visio `Page.Export`; this is export, not printing.
+- Use `Analyze-DiagramImage.ps1` before spec authoring when no better OCR/layout output is available. Its components are rough visual hints, not final semantic boxes.
+- Use `Build-VisioTemplateIndex.ps1` to create a preview/index of local templates; inspect likely matches before deciding style, line weight, or reusable modules.
+- If Visio shows a printer connection dialog during automation, cancel it and retry export. The pipeline should never call `PrintOut`; the dialog is usually Visio/default-printer layout probing.
+
 ## Recommended User-Facing Summary
 
 After generation, report:

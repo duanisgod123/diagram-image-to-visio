@@ -448,7 +448,17 @@ function Resolve-FontSize {
     $maxByHeight = $availableHeight / ([Math]::Max($metrics.LineCount, 1) * $heightFactor)
     $resolved = [Math]::Min($RequestedFontSize, [Math]::Min($maxByWidth, $maxByHeight))
 
-    return [Math]::Max([Math]::Round($resolved, 2), 7.0)
+    $minimumFontSize = 3.0
+    if ($Item.min_font_size) {
+        try {
+            $minimumFontSize = [Math]::Max([double]$Item.min_font_size, 1.0)
+        }
+        catch {
+            $minimumFontSize = 3.0
+        }
+    }
+
+    return [Math]::Max([Math]::Round($resolved, 2), $minimumFontSize)
 }
 
 function Apply-ShapeStyle {
@@ -496,7 +506,7 @@ function Apply-ShapeStyle {
     }
     Set-ResultIfPresent -Shape $Shape -CellName "LinePattern" -Value (Get-LinePatternCode -Pattern $linePattern)
     Set-ResultIfPresent -Shape $Shape -CellName "LineWeight" -Value ([Math]::Max(($lineWeight / 72.0), 0.01))
-    Set-ResultIfPresent -Shape $Shape -CellName "Char.Size" -Value ([Math]::Max(($resolvedFontSize / 72.0), 0.08))
+    Set-ResultIfPresent -Shape $Shape -CellName "Char.Size" -Value ([Math]::Max(($resolvedFontSize / 72.0), 0.04))
 
     switch ($textAlign.ToLowerInvariant()) {
         "left" { Set-ResultIfPresent -Shape $Shape -CellName "Para.HorzAlign" -Value 0 }
